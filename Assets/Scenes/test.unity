@@ -175,15 +175,19 @@ MonoBehaviour:
       z: 0
     clampMin: -1
     clampMax: 1
+    clampSmoothing: 0
     exponent: 0
-    smoothing: 0
+    rigidSmoothing: 0
     useMask: 0
     maskBaseRoughness: 0
     maskRoughness: 0
+    maskCenter:
+      x: 0
+      y: 0
+      z: 0
     maskNumLayers: 0
     maskPersistance: 0
-    maskClampMin: 0
-    maskClampMax: 0
+    maskExponent: 0
   - type: 0
     enabled: 1
     strength: 50
@@ -197,15 +201,19 @@ MonoBehaviour:
       z: 0
     clampMin: -1
     clampMax: 1
+    clampSmoothing: 0
     exponent: 0
-    smoothing: 0
+    rigidSmoothing: 0
     useMask: 0
     maskBaseRoughness: 0
     maskRoughness: 0
+    maskCenter:
+      x: 0
+      y: 0
+      z: 0
     maskNumLayers: 0
     maskPersistance: 0
-    maskClampMin: 0
-    maskClampMax: 0
+    maskExponent: 0
   - type: 0
     enabled: 1
     strength: 5
@@ -219,15 +227,19 @@ MonoBehaviour:
       z: 0
     clampMin: -1
     clampMax: 1
+    clampSmoothing: 0
     exponent: 0
-    smoothing: 0
+    rigidSmoothing: 0
     useMask: 0
     maskBaseRoughness: 0
     maskRoughness: 0
+    maskCenter:
+      x: 0
+      y: 0
+      z: 0
     maskNumLayers: 0
     maskPersistance: 0
-    maskClampMin: 0
-    maskClampMax: 0
+    maskExponent: 0
   - type: 1
     enabled: 1
     strength: 250
@@ -241,16 +253,20 @@ MonoBehaviour:
       z: -32
     clampMin: -1
     clampMax: 1
+    clampSmoothing: 0
     exponent: 17
-    smoothing: 0.5
+    rigidSmoothing: 0.5
     useMask: 1
-    maskBaseRoughness: 10
+    maskBaseRoughness: 5
     maskRoughness: 2
-    maskNumLayers: 1
-    maskPersistance: 0.2
-    maskClampMin: -1
-    maskClampMax: 1
-  - type: 2
+    maskCenter:
+      x: 0
+      y: 0
+      z: 0
+    maskNumLayers: 3
+    maskPersistance: 0.7
+    maskExponent: 2
+  - type: 0
     enabled: 1
     strength: 500
     baseRoughness: 3
@@ -263,15 +279,19 @@ MonoBehaviour:
       z: 0
     clampMin: -1
     clampMax: 0
-    exponent: 2
-    smoothing: 0.1
+    clampSmoothing: 0.2
+    exponent: 0
+    rigidSmoothing: 0
     useMask: 0
     maskBaseRoughness: 2
     maskRoughness: 2
+    maskCenter:
+      x: 0
+      y: 0
+      z: 0
     maskNumLayers: 2
     maskPersistance: 0.2
-    maskClampMin: -1
-    maskClampMax: 0
+    maskExponent: 0
   regenerate: 0
 --- !u!4 &92020177
 Transform:

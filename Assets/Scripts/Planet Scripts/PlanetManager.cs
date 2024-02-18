@@ -487,9 +487,6 @@ public class PlanetManager : MonoBehaviour
                 case 1:
                     return RigidNoise(point, settings);
 
-                case 2:
-                    return OceanNoise(point, settings);
-
                 default:
                     return NormalNoise(point, settings);
             }
@@ -506,39 +503,18 @@ public class PlanetManager : MonoBehaviour
 
             for (int i = 0; i < settings.maskNumLayers; i++)
             {
-                float v = noise.cnoise(point * f + settings.center);
-                maskValue += math.clamp(v * amplitude, settings.maskClampMin, settings.maskClampMax);
+                float v = noise.cnoise(point * f + settings.maskCenter);
+                maskValue += v * amplitude;
+                
                 f *= settings.maskRoughness;
                 amplitude *= settings.maskPersistance;
             }
 
-            maskValue = math.clamp(maskValue/2 + .5f, settings.maskClampMin, settings.maskClampMax);
+            maskValue = math.pow(math.clamp(maskValue/2 + .5f, 0, 1), settings.maskExponent);
             return maskValue;
         }
 
         private float NormalNoise(float3 point, NoiseSettings settings)
-        {
-            float maskValue = CalculateMask(point, settings);
-
-            if(maskValue == 0)
-                return 0;
-
-            float noiseValue = 0;
-            float amplitude = 1;
-            float f = settings.baseRoughness;
-
-            for (int i = 0; i < settings.numLayers; i++)
-            {
-                float v = noise.cnoise(point * f + settings.center);
-                noiseValue += math.clamp(v * amplitude, settings.clampMin, settings.clampMax);
-                f *= settings.roughness;
-                amplitude *= settings.persistance;
-            }
-
-            return maskValue * noiseValue * settings.strength;
-        }
-
-        private float OceanNoise(float3 point, NoiseSettings settings)
         {
             float maskValue = CalculateMask(point, settings);
 
@@ -557,8 +533,8 @@ public class PlanetManager : MonoBehaviour
                 amplitude *= settings.persistance;
             }
 
-            noiseValue = SmoothMin(noiseValue, settings.clampMax, settings.smoothing);
-            noiseValue = SmoothMax(noiseValue, settings.clampMin, settings.smoothing);
+            noiseValue = SmoothMin(noiseValue, settings.clampMax, settings.clampSmoothing);
+            noiseValue = SmoothMax(noiseValue, settings.clampMin, settings.clampSmoothing);
 
             return maskValue * noiseValue * settings.strength;
         }
@@ -579,7 +555,7 @@ public class PlanetManager : MonoBehaviour
                 float a = math.pow(math.abs(noise.cnoise(point * f + settings.center) + 1), settings.exponent);
                 float b = math.pow(math.abs(noise.cnoise(point * f + settings.center) - 1), settings.exponent);
 
-                noiseValue += SmoothMin(a, b, settings.smoothing) * amplitude;
+                noiseValue += SmoothMin(a, b, settings.rigidSmoothing) * amplitude;
                 f *= settings.roughness;
                 amplitude *= settings.persistance;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public struct NoiseSettings
 {
-    public enum NoiseType { NORMAL, RIGID, OCEAN};
+    public enum NoiseType { NORMAL, RIGID};
     public NoiseType type;
 
     public bool enabled;
@@ -21,20 +21,20 @@ public struct NoiseSettings
     public float clampMin;
     [Range(0, 1)]
     public float clampMax;
+    public float clampSmoothing;
 
     [Header("Rigid settings")]
     public float exponent;
-    public float smoothing;
+    public float rigidSmoothing;
 
     [Header("Mask")]
     public bool useMask;
     public float maskBaseRoughness;
     public float maskRoughness;
+    
+    public float3 maskCenter;
     [Range(1,3)]
     public int maskNumLayers;
     public float maskPersistance;
-    [Range(-1, 0)]
-    public float maskClampMin;
-    [Range(0, 1)]
-    public float maskClampMax;
+    public float maskExponent;
 }
