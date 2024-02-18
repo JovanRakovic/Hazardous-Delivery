@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlanetChunk
@@ -138,6 +139,9 @@ public class PlanetChunk
     {
         filter = transform.gameObject.GetComponent<MeshFilter>();
         collider = transform.gameObject.GetComponent<MeshCollider>();
+
+        Renderer renderer = transform.gameObject.GetComponent<Renderer>();
+        renderer.sharedMaterial = planet.mat;
 
         mesh = new Mesh();
 

@@ -22,6 +22,10 @@ public class Planet : MonoBehaviour
     [Range(2, 255), SerializeField]
     public int res = 25;
 
+    private Vector2 minMax;
+
+    public Material mat;
+
     [Header("Noise Settings")]
     public NoiseSettings[] noiseSettings;
 
@@ -34,6 +38,8 @@ public class Planet : MonoBehaviour
 
     void Awake()
     {
+        minMax = new Vector2(float.MaxValue, float.MinValue);
+
         if (planetList == null)
             planetList = new List<Planet>();
         planetList.Add(this);
@@ -49,6 +55,24 @@ public class Planet : MonoBehaviour
 
             rootChunks[i] = new PlanetChunk(this, i, chunk.transform, 0, Vector2.zero);
         }
+    }
+
+    public void UpdateMinMax(Vector2 _minMax)
+    {
+        bool change = false;
+        if(minMax.x > _minMax.x)
+        {
+            minMax.x = _minMax.x;
+            change = true;
+        }
+        if(minMax.y < _minMax.y)
+        {
+            minMax.y = _minMax.y;
+            change = true;
+        }
+
+        if(change)
+            mat.SetVector("_HeightMinMax", minMax);
     }
 
     public void UpdateIndex()
@@ -79,6 +103,7 @@ public class Planet : MonoBehaviour
     {
         if (regenerate)
         {
+            minMax = new Vector2(float.MaxValue, float.MinValue);
             RegenerateChunks();
             regenerate = false;
         }

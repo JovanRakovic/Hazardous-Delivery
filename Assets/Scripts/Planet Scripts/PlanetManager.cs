@@ -7,6 +7,7 @@ using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections;
 using UnityEngine.AI;
+using System.Linq;
 
 public class PlanetManager : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class PlanetManager : MonoBehaviour
         public int borderVertOffset;
         public float2 center;
         public int currentTreeDepth;
+        public float2 minMaxTerrainHeight;
     }
 
     void Start()
@@ -213,16 +215,20 @@ public class PlanetManager : MonoBehaviour
         NativeArray<float3> nVertices = new NativeArray<float3>(vertCount, Allocator.Persistent);
         NativeArray<float3> borderVerts = new NativeArray<float3>(borderVertCount, Allocator.Persistent);
         NativeArray<float3> normals = new NativeArray<float3>(vertCount, Allocator.Persistent);
+        NativeArray<float4> colors = new NativeArray<float4>(vertCount, Allocator.Persistent);
+        NativeArray<float2> minMax = new NativeArray<float2>(chunkDataList.Count(), Allocator.Persistent);
         NativeArray<int> nTris = new NativeArray<int>(triangleCount, Allocator.Persistent);
         NativeArray<PlanetChunkData> nChunkData= new NativeArray<PlanetChunkData>(chunkDataList.ToArray(), Allocator.Persistent);
         NativeArray<int> nNoiseRange = new NativeArray<int>(noiseIndices, Allocator.Persistent);
         NativeArray<NoiseSettings> nNoiseSettingsData = new NativeArray<NoiseSettings>(noiseSettings.ToArray(), Allocator.Persistent);
-
+        
         GeneratePlanetChunks job = new GeneratePlanetChunks()
         {
             vertices = nVertices,
             borderVerts = borderVerts,
             normals = normals,
+            colors = colors,
+            heights = minMax,
             triangles = nTris,
             chunkDataList = nChunkData,
             noiseRange = nNoiseRange,
@@ -239,6 +245,7 @@ public class PlanetManager : MonoBehaviour
 
         Mesh[] meshes = new Mesh[chunksToGenerate.Count];
         NativeArray<int> meshIDs = new NativeArray<int>(meshes.Length, Allocator.Persistent);
+        float2[] minMaxArray = minMax.ToArray();
 
         int i = 0;
         foreach (PlanetChunkData c in chunkDataList) 
@@ -247,6 +254,9 @@ public class PlanetManager : MonoBehaviour
             mesh.SetVertices(nVertices, c.vertOffset, c.vertCount);
             mesh.SetIndices(nTris, c.triOffset, c.triCount, MeshTopology.Triangles, 0);
             mesh.SetNormals(normals, c.vertOffset, c.vertCount);
+            mesh.SetColors(colors, c.vertOffset, c.vertCount);
+
+            Planet.planetList[c.planetIndex].UpdateMinMax(minMaxArray[i]);
 
             meshes[i] = mesh;
             meshIDs[i] = mesh.GetInstanceID();
@@ -276,6 +286,8 @@ public class PlanetManager : MonoBehaviour
         nVertices.Dispose();
         borderVerts.Dispose();
         normals.Dispose();
+        colors.Dispose();
+        minMax.Dispose();
         nTris.Dispose();
         nChunkData.Dispose();
         meshIDs.Dispose();
@@ -314,6 +326,8 @@ public class PlanetManager : MonoBehaviour
         [NativeDisableContainerSafetyRestriction] public NativeArray<float3> vertices;
         [NativeDisableContainerSafetyRestriction] public NativeArray<float3> borderVerts;
         [NativeDisableContainerSafetyRestriction] public NativeArray<float3> normals;
+        [NativeDisableContainerSafetyRestriction] public NativeArray<float4> colors;
+        [NativeDisableContainerSafetyRestriction] public NativeArray<float2> heights;
         [NativeDisableContainerSafetyRestriction] public NativeArray<int> triangles;
         [NativeDisableContainerSafetyRestriction] public NativeArray<int> noiseRange;
         [NativeDisableContainerSafetyRestriction] public NativeArray<NoiseSettings> noiseSettingsData;
@@ -337,6 +351,9 @@ public class PlanetManager : MonoBehaviour
 
             int counter = 0;
             int borderCounter = 0;
+
+            float2 minMax = new float2(float.MaxValue, float.MinValue);
+
             for (float x = 0; x <= res + 2; x++) 
             {
                 for (float y = 0; y <= res + 2; y++) 
@@ -398,33 +415,42 @@ public class PlanetManager : MonoBehaviour
                         borderCounter++;
                         continue;
                     }
+
+                    if(height > minMax.y)
+                        minMax.y = height;
+                    else if(height < minMax.x)
+                        minMax.x = height;
+
+                    colors[vertOffset + counter] = new float4(height,0,0,0);
                     vertices[vertOffset + counter] = vec;
                     counter++;
                 }
             }
+
+            heights[i] = minMax;
 
             int resP = res + 1;
             for (int j = 0; j < res + 2; j++)
             {
                 for (int k = 0; k < res + 2; k++)
                 {
-                    bool true0 = false, true1 = false, true2 = false, true3 = false;
+                    bool isRealVert1 = false, isRealVert2 = false, isRealVert3 = false, isRealVert4 = false;
 
-                    float3 vert0 = FindVert(i, j, k, ref true0);
-                    float3 vert1 = FindVert(i, j, k + 1, ref true1);
-                    float3 vert2 = FindVert(i, j + 1, k, ref true2);
-                    float3 vert3 = FindVert(i, j + 1, k + 1, ref true3);
+                    float3 vert0 = FindVert(i, j, k, ref isRealVert1);
+                    float3 vert1 = FindVert(i, j, k + 1, ref isRealVert2);
+                    float3 vert2 = FindVert(i, j + 1, k, ref isRealVert3);
+                    float3 vert3 = FindVert(i, j + 1, k + 1, ref isRealVert4);
 
                     float3 normalA = math.normalize(math.cross(vert3 - vert1, vert0 - vert1));
                     float3 normalB = math.normalize(math.cross(vert0 - vert2, vert3 - vert2));
 
-                    if (true0)
+                    if (isRealVert1)
                         normals[vertOffset + (j - 1) * resP + (k - 1)] += normalA + normalB;
-                    if (true1)
+                    if (isRealVert2)
                         normals[vertOffset + (j - 1) * resP + k] += normalA;
-                    if (true2)
+                    if (isRealVert3)
                         normals[vertOffset + j * resP + (k - 1)] += normalB;
-                    if (true3)
+                    if (isRealVert4)
                         normals[vertOffset + j * resP + k] += normalA + normalB;
                 }
             }
@@ -550,16 +576,10 @@ public class PlanetManager : MonoBehaviour
 
             for (int i = 0; i < settings.numLayers; i++)
             {
-                //multiply - when we bring the function to some power, it reduces the range from 0-1 to 0-(something below 1)
-                //So I use the multiply varibale to set it back to a range of 0-1
-                /*float multiply = 1f/math.pow(math.sin(1), settings.exponent);
-                float a = math.pow(math.sin(noise.cnoise(point * f + settings.center) + 1), settings.exponent);
-                float b = math.pow(math.sin(-noise.cnoise(point * f + settings.center) + 1), settings.exponent);*/
-                
                 float a = math.pow(math.abs(noise.cnoise(point * f + settings.center) + 1), settings.exponent);
                 float b = math.pow(math.abs(noise.cnoise(point * f + settings.center) - 1), settings.exponent);
 
-                noiseValue += SmoothMin(a, b, settings.smoothing) */** multiply **/ amplitude;
+                noiseValue += SmoothMin(a, b, settings.smoothing) * amplitude;
                 f *= settings.roughness;
                 amplitude *= settings.persistance;
             }
