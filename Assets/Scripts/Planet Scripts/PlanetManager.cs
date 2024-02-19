@@ -6,8 +6,6 @@ using Unity.Mathematics;
 using Unity.Burst;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections;
-using UnityEngine.AI;
-using System.Linq;
 
 public class PlanetManager : MonoBehaviour
 {
@@ -216,7 +214,7 @@ public class PlanetManager : MonoBehaviour
         NativeArray<float3> borderVerts = new NativeArray<float3>(borderVertCount, Allocator.Persistent);
         NativeArray<float3> normals = new NativeArray<float3>(vertCount, Allocator.Persistent);
         NativeArray<float4> colors = new NativeArray<float4>(vertCount, Allocator.Persistent);
-        NativeArray<float2> minMax = new NativeArray<float2>(chunkDataList.Count(), Allocator.Persistent);
+        NativeArray<float2> minMax = new NativeArray<float2>(chunkDataList.Count, Allocator.Persistent);
         NativeArray<int> nTris = new NativeArray<int>(triangleCount, Allocator.Persistent);
         NativeArray<PlanetChunkData> nChunkData= new NativeArray<PlanetChunkData>(chunkDataList.ToArray(), Allocator.Persistent);
         NativeArray<int> nNoiseRange = new NativeArray<int>(noiseIndices, Allocator.Persistent);
