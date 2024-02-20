@@ -257,15 +257,15 @@ MonoBehaviour:
     exponent: 17
     rigidSmoothing: 0.5
     useMask: 1
-    maskBaseRoughness: 5
-    maskRoughness: 2
+    maskBaseRoughness: 3
+    maskRoughness: 3
     maskCenter:
       x: 0
       y: 0
       z: 0
     maskNumLayers: 3
     maskPersistance: 0.7
-    maskExponent: 2
+    maskExponent: 3
   - type: 0
     enabled: 1
     strength: 500
