@@ -54,9 +54,10 @@ Material:
     - _AngleFactor: 123.97
     - _AnglePower: 1.8
     - _MainCutoff: 0.688
-    - _MainGradientExponent: 7
-    - _MainGradientMultiply: 2.55
-    - _MainSaturation: 0.32
+    - _MainGradientExponent: 2
+    - _MainGradientMultiply: 2.3
+    - _MainSaturation: 0.25
+    - _MainSaturationSmoothness: 3
     - _MainTransition: 19.74
     - _MountainCutoff: 0.855
     - _MountainGradientExponent: 2.35
@@ -75,7 +76,7 @@ Material:
     - _WaterTransition: 20.44
     - _float: 11005
     m_Colors:
-    - _HeightMinMax: {r: -417.94476, g: 321.68338, b: 0, a: 0}
+    - _HeightMinMax: {r: -417.2439, g: 305.3602, b: 0, a: 0}
     - _Main: {r: 0.14106035, g: 0.6037736, b: 0, a: 0}
     - _Mountain: {r: 0.33962262, g: 0.17441237, b: 0.049661797, a: 0}
     - _Peeks: {r: 1, g: 1, b: 1, a: 0}
