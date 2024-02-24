@@ -2,13 +2,13 @@ Shader "CustomPost/RenderDepth"
 {
     Properties
     {
-        //_MainTex ("Texture", 2D) = "white" {}
+        _MainTex ("Texture", 2D) = "white" {}
     }
     SubShader
     {
-        // No culling or depth
-        Cull Off ZWrite Off ZTest Always
-
+        Tags { "RenderType"="Transparent" "RenderPipeline" = "UniversalPipeline"}
+        LOD 100
+        ZWrite Off Cull Off
         Pass
         {
             CGPROGRAM
@@ -37,14 +37,14 @@ Shader "CustomPost/RenderDepth"
                 return o;
             }
 
-            //sampler2D _MainTex;
+            sampler2D _MainTex;
 
             fixed4 frag (v2f i) : SV_Target
             {
-                //fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_MainTex, i.uv);
                 // just invert the colors
-
-                return fixed4(1, 1, 1, 1);
+                col.rgb = 1 - col.rgb;
+                return col;
             }
             ENDCG
         }

@@ -43,7 +43,7 @@ Shader "CustomPost/test"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // just invert the colors
-                col.rgb = 1 - col.rgb;
+                //col.rgb = 1 - col.rgb;
                 return col;
             }
             ENDCG
