@@ -1,5 +1,4 @@
 using System;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -12,11 +11,15 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 
     public override void Create()
     {
-        oceanPass = new OceanPass(material);
+        if(oceanPass == null)
+            oceanPass = new OceanPass(material);
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {   
+        if(material == null)
+            return;
+
         if (renderingData.cameraData.cameraType == CameraType.Game)
             renderer.EnqueuePass(oceanPass);
     }
@@ -26,15 +29,15 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
         oceanPass.SetTargets(renderer.cameraColorTargetHandle);
     }
 
-    /*protected override void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
     {
-
-    }*/
+        oceanPass.Dispose();
+    }
 
     class OceanPass : ScriptableRenderPass
     {
         private Material mat;
-        RTHandle src;
+        RTHandle src, temp;
         public OceanPass(Material _mat)
         {
             mat = _mat;
@@ -50,7 +53,11 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
-            //ConfigureTarget(src);
+            /*RenderTextureDescriptor tempDesc = renderingData.cameraData.cameraTargetDescriptor;
+            tempDesc.depthBufferBits = 0;
+            tempDesc.colorFormat = RenderTextureFormat.ARGB32;
+
+            RenderingUtils.ReAllocateIfNeeded(ref temp, tempDesc, name:"_TemporaryColorTexture");*/
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
@@ -59,12 +66,23 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 
             mat.SetTexture("_MainTex", src);
 
-            Blit(cmd, src, src, mat, 0);
+            Blitter.BlitCameraTexture(cmd, src, temp, mat, 0);
+            Blitter.BlitCameraTexture(cmd, temp, src);
 
             context.ExecuteCommandBuffer(cmd);
             cmd.Clear();
 
             CommandBufferPool.Release(cmd);
+        }
+
+        public override void OnCameraCleanup(CommandBuffer cmd)
+        {
+
+        }
+
+        public void Dispose()
+        {
+            temp?.Release();
         }
     }
 }

@@ -7,7 +7,6 @@ Shader "CustomPost/RenderDepth"
     SubShader
     {
         Tags { "RenderType"="Transparent" "RenderPipeline" = "UniversalPipeline"}
-        LOD 100
         ZWrite Off Cull Off
         Pass
         {
@@ -43,8 +42,8 @@ Shader "CustomPost/RenderDepth"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 // just invert the colors
-                col.rgb = 1 - col.rgb;
-                return col;
+                //col.rgb = 1 - col.rgb;
+                return 1 - col;
             }
             ENDCG
         }
