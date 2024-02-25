@@ -10,7 +10,7 @@ public class Planet : MonoBehaviour
 
     [SerializeField]
     private GameObject instance;
-    [Header("General Settings")]
+    [Header("Planet Settings")]
     [SerializeField]
     public float radius = 1000f;
     [SerializeField]
@@ -21,6 +21,18 @@ public class Planet : MonoBehaviour
     public int maxTreeDepth = 4;
     [Range(2, 255), SerializeField]
     public int res = 25;
+
+    [Header("Ocean Settings")]
+    public bool hasOcean = false;
+    public float oceanRadius = 1f;
+    public Color shallowColor = Color.white;
+    public Color deepColor = Color.black;
+    [Range(0,.1f)]
+    public float depthMultiplier = 1f;
+    [Range(0,1)]
+    public float alphaMultiplier = 1f;
+    [Range(0,1)]
+    public float smoothness = 1f;
 
     private Vector2 minMax;
 

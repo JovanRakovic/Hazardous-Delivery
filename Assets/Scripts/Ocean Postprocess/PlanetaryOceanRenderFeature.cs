@@ -1,73 +1,122 @@
 using System;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 {
-    public Material material;
-
+    public Shader oceanShader;
+    private Material[] materials;
+    private Planet[] planets;
     private OceanPass oceanPass;
+    [Range(0,1)]
+    public float ambientLigting = .1f;
 
     public override void Create()
     {
+        if(oceanShader == null)
+            return;
+
+        planets = GameObject.FindObjectsOfType<Planet>();
+        materials = new Material[planets.Length];
+        for(int i = 0; i < materials.Length; i++)
+        {
+            materials[i] = new Material(oceanShader);
+        }
+
         if(oceanPass == null)
-            oceanPass = new OceanPass(material);
+            oceanPass = new OceanPass(materials, planets);
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
     {   
-        if(material == null)
+        if(oceanShader == null)
             return;
 
-        if (renderingData.cameraData.cameraType == CameraType.Game)
+        if(oceanPass == null)
+        {
+            Create();
+            return;
+        }
+
+        if(renderingData.cameraData.cameraType == CameraType.Game)
             renderer.EnqueuePass(oceanPass);
     }
 
     public override void SetupRenderPasses(ScriptableRenderer renderer, in RenderingData renderingData)
     {
-        oceanPass.SetTargets(renderer.cameraColorTargetHandle);
+        if(oceanPass == null)
+            return;
+
+        oceanPass.Setup(renderer.cameraColorTargetHandle, ambientLigting);
     }
 
     protected override void Dispose(bool disposing)
     {
-        oceanPass.Dispose();
+        oceanPass = null;
     }
 
     class OceanPass : ScriptableRenderPass
     {
-        private Material mat;
-        RTHandle src, temp;
-        public OceanPass(Material _mat)
+        private Material[] mats;
+        RenderTargetIdentifier src;
+        private Transform camTransform;
+        private Planet[] planets;
+        private Vector3 dirToSun;
+        private float ambientLigting;
+        public OceanPass(Material[] _mats, Planet[] _plantes)
         {
-            mat = _mat;
+            mats = _mats;
             this.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
-            this.ConfigureInput(ScriptableRenderPassInput.Color);
-            this.ConfigureInput(ScriptableRenderPassInput.Depth);
+            planets = _plantes;
+
+            UpdateDirToSun();
         }
 
-        public void SetTargets(RTHandle color)
+        public void Setup(RTHandle color, float _ambientLighting)
         {
             src = color;
+            ambientLigting = _ambientLighting;
+            planets = GameObject.FindObjectsOfType<Planet>();
         }
 
-        public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
+        public void UpdateDirToSun()
         {
-            /*RenderTextureDescriptor tempDesc = renderingData.cameraData.cameraTargetDescriptor;
-            tempDesc.depthBufferBits = 0;
-            tempDesc.colorFormat = RenderTextureFormat.ARGB32;
-
-            RenderingUtils.ReAllocateIfNeeded(ref temp, tempDesc, name:"_TemporaryColorTexture");*/
+            dirToSun = -RenderSettings.sun.transform.forward;
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get();
 
-            mat.SetTexture("_MainTex", src);
+            foreach(Material mat in mats)
+            {
+                mat.SetVector("dirToSun", dirToSun);
+                mat.SetFloat("ambientLigting", ambientLigting);
+            }
 
-            Blitter.BlitCameraTexture(cmd, src, temp, mat, 0);
-            Blitter.BlitCameraTexture(cmd, temp, src);
+            if(planets != null || planets.Length != 0)
+            {
+                for(int i = 0; i < planets.Length; i++)
+                {
+                    Planet p = planets[i];
+                    if(!p.hasOcean)
+                        continue;
+                        
+                    Material mat = mats[i];
+
+                    mat.SetFloat("radius", p.oceanRadius);
+                    mat.SetVector("center", p.transform.position);
+                    mat.SetColor("deepColor", p.deepColor);
+                    mat.SetColor("shallowColor", p.shallowColor);
+                    mat.SetFloat("depthMultiplier", p.depthMultiplier);
+                    mat.SetFloat("alphaMultiplier", p.alphaMultiplier);
+                    mat.SetFloat("smoothness", p.smoothness);
+
+                    Blit(cmd, src, src, mat, 0);
+                }
+            }
 
             context.ExecuteCommandBuffer(cmd);
             cmd.Clear();
@@ -75,14 +124,9 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
             CommandBufferPool.Release(cmd);
         }
 
-        public override void OnCameraCleanup(CommandBuffer cmd)
+        /*public void Dispose()
         {
 
-        }
-
-        public void Dispose()
-        {
-            temp?.Release();
-        }
+        }*/
     }
 }

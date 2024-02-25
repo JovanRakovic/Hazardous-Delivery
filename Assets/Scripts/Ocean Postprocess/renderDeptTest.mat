@@ -32,5 +32,14 @@ Material:
     - ExampleName: 0.5
     - _ExampleName: 0.5
     - _Intensity: 1
-    m_Colors: []
+    - _Radius: 9945
+    - alphaMultiplier: 0.114
+    - depthMultiplier: 0.005
+    - radius: 9945
+    m_Colors:
+    - _Center: {r: 0, g: 0, b: 0, a: 0}
+    - _WorldSpaceCameraPos: {r: 0, g: 0, b: -18363, a: 0}
+    - center: {r: 0, g: 0, b: 0, a: 0}
+    - deepColor: {r: 0.004648619, g: 0, b: 0.16037738, a: 1}
+    - shallowColor: {r: 0.010412939, g: 0.25042495, b: 0.735849, a: 1}
   m_BuildTextureStacks: []
