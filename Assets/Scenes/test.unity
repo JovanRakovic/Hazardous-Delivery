@@ -158,13 +158,13 @@ MonoBehaviour:
   radius: 10000
   distance: 60000
   distanceDivideFactor: 2.37
-  maxTreeDepth: 10
+  maxTreeDepth: 7
   res: 30
   hasOcean: 1
   oceanRadius: 9945
   shallowColor: {r: 0.010412939, g: 0.25042495, b: 0.735849, a: 1}
-  deepColor: {r: 0.004648619, g: 0, b: 0.16037738, a: 1}
-  depthMultiplier: 0.005
+  deepColor: {r: 0.007823278, g: 0, b: 0.3207547, a: 1}
+  depthMultiplier: 0.0189
   alphaMultiplier: 0.114
   smoothness: 0.91
   mat: {fileID: 2100000, guid: 043f4fe1878a5384b9edf1c95eb20bcb, type: 2}
@@ -763,7 +763,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 92020177}
-  - {fileID: 1957393047}
   - {fileID: 706021863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -826,198 +825,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0870cefdfdbdfff489ebaf19541c2d58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1957393046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1957393047}
-  - component: {fileID: 1957393048}
-  m_Layer: 0
-  m_Name: Planet (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1957393047
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957393046}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9895, y: 0, z: -3813}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1353050951}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1957393048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957393046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ac9fdbc4603c9a4582ba238531723e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  planetIndex: 0
-  instance: {fileID: 6071970245449299819, guid: 32b10d542234e03458d4b1d3147dce41,
-    type: 3}
-  radius: 10000
-  distance: 60000
-  distanceDivideFactor: 2.37
-  maxTreeDepth: 10
-  res: 30
-  hasOcean: 1
-  oceanRadius: 9945
-  shallowColor: {r: 0.010412939, g: 0.25042495, b: 0.735849, a: 1}
-  deepColor: {r: 0.004648619, g: 0, b: 0.16037738, a: 1}
-  depthMultiplier: 0.005
-  alphaMultiplier: 0.114
-  smoothness: 0.91
-  mat: {fileID: 2100000, guid: 043f4fe1878a5384b9edf1c95eb20bcb, type: 2}
-  noiseSettings:
-  - type: 0
-    enabled: 1
-    strength: 100
-    baseRoughness: 2.35
-    roughness: 2.95
-    numLayers: 2
-    persistance: 0.45
-    center:
-      x: 0
-      y: 0
-      z: 0
-    clampMin: -1
-    clampMax: 1
-    clampSmoothing: 0
-    exponent: 0
-    rigidSmoothing: 0
-    useMask: 0
-    maskBaseRoughness: 0
-    maskRoughness: 0
-    maskCenter:
-      x: 0
-      y: 0
-      z: 0
-    maskNumLayers: 0
-    maskPersistance: 0
-    maskExponent: 0
-  - type: 0
-    enabled: 1
-    strength: 50
-    baseRoughness: 10
-    roughness: 4
-    numLayers: 4
-    persistance: 0.2
-    center:
-      x: 0
-      y: 0
-      z: 0
-    clampMin: -1
-    clampMax: 1
-    clampSmoothing: 0
-    exponent: 0
-    rigidSmoothing: 0
-    useMask: 0
-    maskBaseRoughness: 0
-    maskRoughness: 0
-    maskCenter:
-      x: 0
-      y: 0
-      z: 0
-    maskNumLayers: 0
-    maskPersistance: 0
-    maskExponent: 0
-  - type: 0
-    enabled: 1
-    strength: 5
-    baseRoughness: 100
-    roughness: 4
-    numLayers: 4
-    persistance: 0.2
-    center:
-      x: 0
-      y: 0
-      z: 0
-    clampMin: -1
-    clampMax: 1
-    clampSmoothing: 0
-    exponent: 0
-    rigidSmoothing: 0
-    useMask: 0
-    maskBaseRoughness: 0
-    maskRoughness: 0
-    maskCenter:
-      x: 0
-      y: 0
-      z: 0
-    maskNumLayers: 0
-    maskPersistance: 0
-    maskExponent: 0
-  - type: 1
-    enabled: 1
-    strength: 250
-    baseRoughness: 3
-    roughness: 3
-    numLayers: 3
-    persistance: 0.15
-    center:
-      x: 100
-      y: 52
-      z: -32
-    clampMin: -1
-    clampMax: 1
-    clampSmoothing: 0
-    exponent: 17
-    rigidSmoothing: 0.5
-    useMask: 1
-    maskBaseRoughness: 3
-    maskRoughness: 3
-    maskCenter:
-      x: 0
-      y: 0
-      z: 0
-    maskNumLayers: 3
-    maskPersistance: 0.7
-    maskExponent: 3
-  - type: 0
-    enabled: 1
-    strength: 500
-    baseRoughness: 3
-    roughness: 3
-    numLayers: 2
-    persistance: 0.15
-    center:
-      x: 0
-      y: 0
-      z: 0
-    clampMin: -1
-    clampMax: 0
-    clampSmoothing: 0.2
-    exponent: 0
-    rigidSmoothing: 0
-    useMask: 0
-    maskBaseRoughness: 2
-    maskRoughness: 2
-    maskCenter:
-      x: 0
-      y: 0
-      z: 0
-    maskNumLayers: 2
-    maskPersistance: 0.2
-    maskExponent: 0
-  regenerate: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -83,7 +83,8 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 
         public void UpdateDirToSun()
         {
-            dirToSun = -RenderSettings.sun.transform.forward;
+            if(RenderSettings.sun != null)
+                dirToSun = -RenderSettings.sun.transform.forward;
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
