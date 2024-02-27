@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -15,8 +16,12 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
     {
         if(oceanShader == null)
             return;
-
+    
+#if UNITY_EDITOR
         planets = GameObject.FindObjectsOfType<Planet>();
+#else
+        planets = Planet.planetList.ToArray();
+#endif
 
         if(oceanPass == null)
             oceanPass = new OceanPass(oceanShader, planets);
@@ -73,7 +78,13 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
         {
             src = color;
             ambientLigting = _ambientLighting;
-            planets = GameObject.FindObjectsOfType<Planet>();
+            
+#if UNITY_EDITOR
+                planets = GameObject.FindObjectsOfType<Planet>();
+#else
+                planets = Planet.planetList.ToArray();
+#endif
+
             if(mats.Length != planets.Length)
                 UpdateMats();
         }

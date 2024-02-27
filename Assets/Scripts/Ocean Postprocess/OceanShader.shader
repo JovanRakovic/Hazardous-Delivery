@@ -1,4 +1,4 @@
-Shader "CustomPost/RenderDepth"
+Shader "CustomPost/OceanShader"
 {
     Properties
     {
@@ -62,7 +62,8 @@ Shader "CustomPost/RenderDepth"
             {
                 fixed4 originalColor = tex2D(_MainTex, i.uv);
                 float nonLinearDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-                float sceneDepth = LinearEyeDepth(nonLinearDepth) * length(i.viewVector);
+                float linearEyeDepth = LinearEyeDepth(nonLinearDepth);
+                float sceneDepth = linearEyeDepth * length(i.viewVector);
 
                 float3 rayDir = normalize(i.viewVector);
                 float2 hitInfo = raySphere(center, radius/2, _WorldSpaceCameraPos, rayDir);
