@@ -76,7 +76,7 @@ Material:
     - _WaterTransition: 20.44
     - _float: 11005
     m_Colors:
-    - _HeightMinMax: {r: -417.4871, g: 318.20993, b: 0, a: 0}
+    - _HeightMinMax: {r: -417.94476, g: 318.20993, b: 0, a: 0}
     - _Main: {r: 0.14106035, g: 0.6037736, b: 0, a: 0}
     - _Mountain: {r: 0.33962262, g: 0.17441237, b: 0.049661797, a: 0}
     - _Peeks: {r: 1, g: 1, b: 1, a: 0}

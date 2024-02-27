@@ -49,7 +49,7 @@ public class PlanetManager : MonoBehaviour
     private void CheckDistance(List<PlanetChunk> chunks) 
     {
         chunks = new List<PlanetChunk>(chunks);
-        List<PlanetChunk> newChunks = new List<PlanetChunk>();
+        //List<PlanetChunk> newChunks = new List<PlanetChunk>();
         foreach (PlanetChunk chunk in chunks) 
         {
             Planet planet = chunk.planet;
@@ -60,12 +60,12 @@ public class PlanetManager : MonoBehaviour
             if (chunk.transform == null)
                 continue;
 
-            float distance = Vector3.Distance(chunk.transform.position + chunk.boundCenter, camTrans.position);
+            float distance = Vector3.Distance(chunk.transform.TransformPoint(chunk.boundCenter), camTrans.position);
             if (distance > dis)
             {
                 if (chunk.hasParent)
                 {
-                    float parentDistance = Vector3.Distance(chunk.transform.position + chunk.parent.boundCenter, camTrans.position);
+                    float parentDistance = Vector3.Distance(chunk.transform.TransformPoint(chunk.parent.boundCenter), camTrans.position);
                     if (parentDistance > dis * planet.distanceDivideFactor)
                     {
                         chunk.RequestDestruction();
@@ -121,7 +121,7 @@ public class PlanetManager : MonoBehaviour
                 Transform t = Instantiate(chunkInstance, chunk.transform);
                 children[i] = new PlanetChunk(chunk.planet, chunk.facingDirection ,t, chunk.currentTreeDepth+1, chunk, childCenter);
                 children[i].EstimateBound(chunk.boundCenter.y);
-                newChunks.Add(children[i]);
+                //newChunks.Add(children[i]);
             }
 
             chunk.AssignChildren(children);
