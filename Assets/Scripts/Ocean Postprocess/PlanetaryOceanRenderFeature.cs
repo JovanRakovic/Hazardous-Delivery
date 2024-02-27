@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -7,7 +6,6 @@ using UnityEngine.Rendering.Universal;
 public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 {
     public Shader oceanShader;
-    private Material[] materials;
     private Planet[] planets;
     private OceanPass oceanPass;
     [Range(0,1)]
@@ -19,14 +17,9 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
             return;
 
         planets = GameObject.FindObjectsOfType<Planet>();
-        materials = new Material[planets.Length];
-        for(int i = 0; i < materials.Length; i++)
-        {
-            materials[i] = new Material(oceanShader);
-        }
 
         if(oceanPass == null)
-            oceanPass = new OceanPass(materials, planets);
+            oceanPass = new OceanPass(oceanShader, planets);
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -65,13 +58,15 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
         private Planet[] planets;
         private Vector3 dirToSun;
         private float ambientLigting;
-        public OceanPass(Material[] _mats, Planet[] _plantes)
+        private Shader oceanShader;
+        public OceanPass(Shader _oceanShader, Planet[] _plantes)
         {
-            mats = _mats;
             this.renderPassEvent = RenderPassEvent.BeforeRenderingPostProcessing;
             planets = _plantes;
+            oceanShader = _oceanShader;
 
             UpdateDirToSun();
+            UpdateMats();
         }
 
         public void Setup(RTHandle color, float _ambientLighting)
@@ -79,6 +74,15 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
             src = color;
             ambientLigting = _ambientLighting;
             planets = GameObject.FindObjectsOfType<Planet>();
+            if(mats.Length != planets.Length)
+                UpdateMats();
+        }
+
+        private void UpdateMats()
+        {
+            mats = new Material[planets.Length];
+            for(int i = 0; i < mats.Length; i++)
+                mats[i] = new Material(oceanShader);
         }
 
         public void UpdateDirToSun()
