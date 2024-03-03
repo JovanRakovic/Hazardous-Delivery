@@ -58,6 +58,12 @@ Shader "CustomPost/OceanShader"
             float smoothness;
             float ambientLigting;
 
+            sampler2D waveNormalA;
+			sampler2D waveNormalB;
+			float waveStrength;
+			float waveNormalScale;
+			float waveSpeed;
+
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 originalColor = tex2D(_MainTex, i.uv);
@@ -75,15 +81,20 @@ Shader "CustomPost/OceanShader"
                     float opticalDepth01 = 1 - exp(-oceanViweDepth * depthMultiplier);
                     float alpha = 1 - exp(-oceanViweDepth * alphaMultiplier);
 
-                    float3 oceanNormal = normalize((_WorldSpaceCameraPos + rayDir * hitInfo.x) - center);
+                    float3 rayOceanIntersectPos = _WorldSpaceCameraPos + rayDir * hitInfo.x - center;
+                    float3 oceanNormal = normalize(rayOceanIntersectPos);
 
                     float specularHighlight = 0;
                     if(hitInfo.x > 0)
                     {
-                        //float mask = dot(dirToSun, oceanNormal);
-                        //mask = (mask > 0) + smoothstep(mask);
+                        float2 waveOffsetA = float2(_Time.x * waveSpeed, _Time.x * waveSpeed * 0.8);
+					    float2 waveOffsetB = float2(_Time.x * waveSpeed * - 0.8, _Time.x * waveSpeed * -0.3);
+					    float3 waveNormal = triplanarNormal(rayOceanIntersectPos, oceanNormal, waveNormalScale, waveOffsetA, waveNormalA);
+					    waveNormal = triplanarNormal(rayOceanIntersectPos, waveNormal, waveNormalScale, waveOffsetB, waveNormalB);
+					    waveNormal = normalize(lerp(oceanNormal, waveNormal, waveStrength));
 
-                        float specularAngle = acos(dot(normalize(dirToSun - rayDir), oceanNormal));
+
+                        float specularAngle = acos(dot(normalize(dirToSun - rayDir), waveNormal));
                         float specularExponent = specularAngle / (1 - smoothness);
                         specularHighlight = exp(-specularExponent * specularExponent);// * mask;
                     }

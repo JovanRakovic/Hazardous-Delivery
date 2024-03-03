@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,19 +155,9 @@ MonoBehaviour:
   planetIndex: 0
   instance: {fileID: 6071970245449299819, guid: 32b10d542234e03458d4b1d3147dce41,
     type: 3}
-  radius: 10000
-  distance: 60000
-  distanceDivideFactor: 2.37
-  maxTreeDepth: 8
-  res: 30
+  generalSettings: {fileID: 11400000, guid: c4589b40eee02a245b8aef160443ac13, type: 2}
   hasOcean: 1
-  oceanRadius: 9945
-  shallowColor: {r: 0.010412939, g: 0.25042495, b: 0.735849, a: 1}
-  deepColor: {r: 0.007823278, g: 0, b: 0.3207547, a: 1}
-  depthMultiplier: 0.0189
-  alphaMultiplier: 0.114
-  smoothness: 0.91
-  mat: {fileID: 2100000, guid: 043f4fe1878a5384b9edf1c95eb20bcb, type: 2}
+  oceanSettings: {fileID: 11400000, guid: 562144e0c963d534db226c6e180c5b7c, type: 2}
   noiseSettings:
   - type: 0
     enabled: 1

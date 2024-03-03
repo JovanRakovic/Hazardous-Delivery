@@ -10,33 +10,14 @@ public class Planet : MonoBehaviour
 
     [SerializeField]
     private GameObject instance;
-    [Header("Planet Settings")]
-    [SerializeField]
-    public float radius = 1000f;
-    [SerializeField]
-    public float distance;
-    [SerializeField]
-    public float distanceDivideFactor = 2f;
-    [SerializeField]
-    public int maxTreeDepth = 4;
-    [Range(2, 255), SerializeField]
-    public int res = 25;
+    [Header("General Settings")]
+    public GeneralSettings generalSettings;
 
     [Header("Ocean Settings")]
     public bool hasOcean = false;
-    public float oceanRadius = 1f;
-    public Color shallowColor = Color.white;
-    public Color deepColor = Color.black;
-    [Range(0,.1f)]
-    public float depthMultiplier = 1f;
-    [Range(0,1)]
-    public float alphaMultiplier = 1f;
-    [Range(0,1)]
-    public float smoothness = 1f;
+    public OceanSettings oceanSettings;
 
     private Vector2 minMax;
-
-    public Material mat;
 
     [Header("Noise Settings")]
     public NoiseSettings[] noiseSettings;
@@ -84,7 +65,7 @@ public class Planet : MonoBehaviour
         }
 
         if(change)
-            mat.SetVector("_HeightMinMax", minMax);
+            generalSettings.mat.SetVector("_HeightMinMax", minMax);
     }
 
     public void UpdateIndex()

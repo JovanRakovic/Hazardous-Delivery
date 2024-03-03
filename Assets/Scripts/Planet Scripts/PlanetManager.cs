@@ -52,8 +52,8 @@ public class PlanetManager : MonoBehaviour
         //List<PlanetChunk> newChunks = new List<PlanetChunk>();
         foreach (PlanetChunk chunk in chunks) 
         {
-            Planet planet = chunk.planet;
-            float dis = planet.distance / Mathf.Pow(planet.distanceDivideFactor, chunk.currentTreeDepth);
+            GeneralSettings planetSettings = chunk.planet.generalSettings;
+            float dis = planetSettings.distance / Mathf.Pow(planetSettings.distanceDivideFactor, chunk.currentTreeDepth);
             if (chunk.hasChildern)
                 continue;
 
@@ -66,7 +66,7 @@ public class PlanetManager : MonoBehaviour
                 if (chunk.hasParent)
                 {
                     float parentDistance = Vector3.Distance(chunk.transform.TransformPoint(chunk.parent.boundCenter), camTrans.position);
-                    if (parentDistance > dis * planet.distanceDivideFactor)
+                    if (parentDistance > dis * planetSettings.distanceDivideFactor)
                     {
                         chunk.RequestDestruction();
                     }
@@ -85,7 +85,7 @@ public class PlanetManager : MonoBehaviour
                 continue;
             }
 
-            if (planet.maxTreeDepth <= chunk.currentTreeDepth)
+            if (planetSettings.maxTreeDepth <= chunk.currentTreeDepth)
                 continue;
 
             PlanetChunk[] children = new PlanetChunk[4];
@@ -139,7 +139,7 @@ public class PlanetManager : MonoBehaviour
 
         foreach (PlanetChunk chunk in PlanetChunk.visibleChunks)
         {
-            int res = chunk.planet.res;
+            int res = chunk.planet.generalSettings.res;
             if (chunk.hasMesh)
                 continue;
 
@@ -152,7 +152,7 @@ public class PlanetManager : MonoBehaviour
             {
                 planetIndex = chunk.planet.planetIndex,
                 resolution = res,
-                radius = chunk.planet.radius,
+                radius = chunk.planet.generalSettings.radius,
                 facingDir = chunk.facingDirection,
                 vertCount = tempVert,
                 triCount = tempTri,

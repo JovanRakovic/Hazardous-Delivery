@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef9950bf503ffb54f8da8b65770c3aca, type: 3}
+  m_Name: TestPlanetSettings
+  m_EditorClassIdentifier: 
+  radius: 10000
+  distance: 60000
+  distanceDivideFactor: 2.4
+  maxTreeDepth: 8
+  res: 30
+  mat: {fileID: 2100000, guid: 043f4fe1878a5384b9edf1c95eb20bcb, type: 2}

@@ -141,7 +141,7 @@ public class PlanetChunk
         collider = transform.gameObject.GetComponent<MeshCollider>();
 
         Renderer renderer = transform.gameObject.GetComponent<Renderer>();
-        renderer.sharedMaterial = planet.mat;
+        renderer.sharedMaterial = planet.generalSettings.mat;
 
         mesh = new Mesh();
 

@@ -116,19 +116,24 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
             {
                 for(int i = 0; i < planets.Length; i++)
                 {
-                    Planet p = planets[i];
-                    if(!p.hasOcean)
+                    if(!planets[i].hasOcean)
                         continue;
-                        
+                    
+                    OceanSettings p = planets[i].oceanSettings;
                     Material mat = mats[i];
 
                     mat.SetFloat("radius", p.oceanRadius);
-                    mat.SetVector("center", p.transform.position);
+                    mat.SetVector("center", planets[i].transform.position);
                     mat.SetColor("deepColor", p.deepColor);
                     mat.SetColor("shallowColor", p.shallowColor);
                     mat.SetFloat("depthMultiplier", p.depthMultiplier);
                     mat.SetFloat("alphaMultiplier", p.alphaMultiplier);
                     mat.SetFloat("smoothness", p.smoothness);
+                    mat.SetTexture("waveNormalA", p.normalA);
+                    mat.SetTexture("waveNormalB", p.normalB);
+                    mat.SetFloat("waveStrength", p.waveStrength);
+                    mat.SetFloat("waveNormalScale", p.waveNormalScale);
+                    mat.SetFloat("waveSpeed", p.waveSpeed);
 
                     Blit(cmd, src, src, mat, 0);
                 }
@@ -139,10 +144,5 @@ public class PlanetaryOceanRenderFeature : ScriptableRendererFeature
 
             CommandBufferPool.Release(cmd);
         }
-
-        /*public void Dispose()
-        {
-
-        }*/
     }
 }
