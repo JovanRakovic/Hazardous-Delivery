@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9950bf503ffb54f8da8b65770c3aca, type: 3}
   m_Name: TestPlanetSettings
   m_EditorClassIdentifier: 
-  radius: 10000
+  radius: 10740
   distance: 60000
   distanceDivideFactor: 2.4
-  maxTreeDepth: 8
+  maxTreeDepth: 10
   res: 30
   mat: {fileID: 2100000, guid: 043f4fe1878a5384b9edf1c95eb20bcb, type: 2}

@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e48915a6589841aaa9c3cd496b809, type: 3}
   m_Name: TestPlanetOceanSetting
   m_EditorClassIdentifier: 
-  oceanRadius: 9952
+  oceanRadius: 10693
   shallowColor: {r: 0, g: 0.24347949, b: 0.4245283, a: 1}
   deepColor: {r: 0, g: 0.010009408, b: 0.3301887, a: 1}
   depthMultiplier: 0.0448
   alphaMultiplier: 0.294
-  smoothness: 0.93
+  smoothness: 0.96
   normalA: {fileID: 2800000, guid: 07c225b756b76c0479e7680d6adb3a80, type: 3}
   normalB: {fileID: 2800000, guid: ac1f4cbcec9ca084a898ea050d92cbfc, type: 3}
-  waveStrength: 0.378
+  waveStrength: 0.239
   waveNormalScale: 0.1
   waveSpeed: 1

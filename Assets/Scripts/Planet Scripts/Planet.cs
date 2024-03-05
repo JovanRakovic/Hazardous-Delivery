@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Planet : MonoBehaviour
@@ -84,6 +85,7 @@ public class Planet : MonoBehaviour
 
     private void RegenerateChunks()
     {
+        minMax = new Vector2(float.MaxValue, float.MinValue);
         foreach (PlanetChunk c in rootChunks) 
         {
             c.RequestRegenerate();
@@ -91,12 +93,10 @@ public class Planet : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-
-    private void OnValidate()
+    private void OnGUI()
     {
         if (regenerate)
         {
-            minMax = new Vector2(float.MaxValue, float.MinValue);
             RegenerateChunks();
             regenerate = false;
         }
