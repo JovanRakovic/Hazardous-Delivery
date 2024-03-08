@@ -6,6 +6,8 @@ public class CameraManager : MonoBehaviour
     Camera[] cameras;
     private void Awake() 
     {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         MakeAllCamerasRenderDepth();
     }
 

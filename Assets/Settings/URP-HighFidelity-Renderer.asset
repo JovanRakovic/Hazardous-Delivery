@@ -111,4 +111,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Active: 1
   oceanShader: {fileID: 4800000, guid: a00bcf17b7c108f4d8174c4f89d8312f, type: 3}
-  ambientLigting: 0.1
+  ambientLigting: 0.05

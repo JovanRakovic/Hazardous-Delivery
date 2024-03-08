@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f53e48915a6589841aaa9c3cd496b809, type: 3}
   m_Name: TestPlanetOceanSetting
   m_EditorClassIdentifier: 
-  oceanRadius: 10693
+  oceanRadius: 10683
   shallowColor: {r: 0, g: 0.24347949, b: 0.4245283, a: 1}
   deepColor: {r: 0, g: 0.010009408, b: 0.3301887, a: 1}
   depthMultiplier: 0.0448
