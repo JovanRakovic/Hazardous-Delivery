@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 405888407}
-  m_IndirectSpecularColor: {r: 0.028234512, g: 0.040616333, b: 0.083222166, a: 1}
+  m_IndirectSpecularColor: {r: 0.011362709, g: 0.0103916265, b: 0.011596147, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -161,7 +161,7 @@ MonoBehaviour:
   noiseSettings:
   - type: 0
     enabled: 1
-    strength: 100
+    strength: 300
     baseRoughness: 2.35
     roughness: 2.95
     numLayers: 2
@@ -187,7 +187,7 @@ MonoBehaviour:
     maskExponent: 0
   - type: 0
     enabled: 1
-    strength: 50
+    strength: 100
     baseRoughness: 10
     roughness: 4
     numLayers: 4
@@ -213,7 +213,7 @@ MonoBehaviour:
     maskExponent: 0
   - type: 0
     enabled: 1
-    strength: 5
+    strength: 2.5
     baseRoughness: 100
     roughness: 4
     numLayers: 4
@@ -239,8 +239,8 @@ MonoBehaviour:
     maskExponent: 0
   - type: 1
     enabled: 1
-    strength: 250
-    baseRoughness: 3
+    strength: 100
+    baseRoughness: 5
     roughness: 3
     numLayers: 3
     persistance: 0.15
@@ -265,7 +265,7 @@ MonoBehaviour:
     maskExponent: 3
   - type: 0
     enabled: 1
-    strength: 500
+    strength: 300
     baseRoughness: 3
     roughness: 3
     numLayers: 2
@@ -276,7 +276,7 @@ MonoBehaviour:
       z: 0
     clampMin: -1
     clampMax: 0
-    clampSmoothing: 0.2
+    clampSmoothing: 0.5
     exponent: 0
     rigidSmoothing: 0
     useMask: 0
@@ -299,7 +299,7 @@ Transform:
   m_GameObject: {fileID: 92020175}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 18264}
+  m_LocalPosition: {x: 0, y: 0, z: 19301}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
