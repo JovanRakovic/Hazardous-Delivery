@@ -300,5 +300,7 @@ public class PlanetManager : MonoBehaviour
         }
         chunksToDissapear.Clear();
         childrenToDelete.Clear();
+
+        Resources.UnloadUnusedAssets();
     }
 }
