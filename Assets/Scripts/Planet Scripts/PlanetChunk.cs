@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PlanetChunk
 {
-    public static List<PlanetChunk> chunks;
     public static List<PlanetChunk> visibleChunks;
     public Transform transform;
 
@@ -62,6 +61,7 @@ public class PlanetChunk
         Start();
     }
 
+    //Zasto sam pomnozio x i y sa 2.5????
     public void EstimateBound(float height) 
     {
         boundCenter = new Vector3(center.x * 2.5f, height, center.y * 2.5f);
@@ -145,13 +145,9 @@ public class PlanetChunk
 
         mesh = new Mesh();
 
-        if (chunks == null)
-            chunks = new List<PlanetChunk>();
-
         if(visibleChunks == null)
             visibleChunks = new List<PlanetChunk>();
 
-        chunks.Add(this);
         visibleChunks.Add(this);
     }
 
@@ -160,7 +156,6 @@ public class PlanetChunk
         mesh.Clear();
         GameObject.Destroy(transform.gameObject);
         transform = null;
-        chunks.Remove(this);
         visibleChunks.Remove(this);
     }
 

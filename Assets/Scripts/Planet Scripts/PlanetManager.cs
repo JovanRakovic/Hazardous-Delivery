@@ -4,7 +4,6 @@ using UnityEngine;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Burst;
-using Unity.Collections.LowLevel.Unsafe;
 using Unity.Collections;
 
 public class PlanetManager : MonoBehaviour
@@ -39,7 +38,7 @@ public class PlanetManager : MonoBehaviour
     {
         if (!coroutineRunning)
         {
-            CheckDistance(PlanetChunk.chunks);
+            CheckDistance(PlanetChunk.visibleChunks);
 
             GenerateChunks();
         }
@@ -52,13 +51,14 @@ public class PlanetManager : MonoBehaviour
         //List<PlanetChunk> newChunks = new List<PlanetChunk>();
         foreach (PlanetChunk chunk in chunks) 
         {
-            GeneralSettings planetSettings = chunk.planet.generalSettings;
-            float dis = planetSettings.distance / Mathf.Pow(planetSettings.distanceDivideFactor, chunk.currentTreeDepth);
-            if (chunk.hasChildern)
-                continue;
+            /*if (chunk.hasChildern)
+                continue;*/
 
             if (chunk.transform == null)
                 continue;
+
+            GeneralSettings planetSettings = chunk.planet.generalSettings;
+            float dis = planetSettings.distance / Mathf.Pow(planetSettings.distanceDivideFactor, chunk.currentTreeDepth);
 
             float distance = Vector3.Distance(chunk.transform.TransformPoint(chunk.boundCenter), camTrans.position);
             if (distance > dis)
